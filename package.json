@@ -1,0 +1,25 @@
+{
+  "name": "koa-mongo-example",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/polchky/koa-mongo-example.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/polchky/koa-mongo-example/issues"
+  },
+  "homepage": "https://github.com/polchky/koa-mongo-example#readme",
+  "dependencies": {
+    "koa": "^2.6.1",
+    "koa-router": "^7.4.0",
+    "mongoose": "^5.3.6",
+    "swagger-koa": "^2.0.0"
+  }
+}
