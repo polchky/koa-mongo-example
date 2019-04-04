@@ -18,7 +18,9 @@
   "homepage": "https://github.com/polchky/koa-mongo-example#readme",
   "dependencies": {
     "koa": "^2.6.1",
+    "koa-bodyparser": "^4.2.1",
     "koa-router": "^7.4.0",
+    "koa2-swagger-ui": "^2.13.2",
     "mongoose": "^5.3.6",
     "swagger-koa": "^2.0.0"
   }

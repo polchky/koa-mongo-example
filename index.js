@@ -1,7 +1,9 @@
 const Koa = require('koa');
+const bodyParser = require('koa-bodyparser');
 const Router = require('koa-router');
 const Mongoose = require('mongoose');
 const Swagger = require('swagger-koa');
+const SwaggerUi = require('koa2-swagger-ui');
 
 let port = 3000;
 
@@ -23,8 +25,17 @@ let swagger = Swagger.init({
     },
     apis: ['./routes/books.js']
   });
+
+let swaggerUi = SwaggerUi({
+    routePrefix: '/swagger',
+    swaggerOptions: {
+        url: 'http://petstore.swagger.io/v2/swagger.json'
+    }
+});
 app
     .use(swagger)
+    .use(swaggerUi)
+    .use(bodyParser())
     .use(router.routes())
     .use(router.allowedMethods())
     .listen(port);
