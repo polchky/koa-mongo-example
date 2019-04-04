@@ -2,34 +2,37 @@ const Koa = require('koa');
 const bodyParser = require('koa-bodyparser');
 const Router = require('koa-router');
 const Mongoose = require('mongoose');
-const Swagger = require('swagger-koa');
+const Swagger = require('./middlewares/swagger.js');
 const SwaggerUi = require('koa2-swagger-ui');
 
-let port = 3000;
-
-let app = new Koa();
-let router = new Router();
-require('./routes')(router);
 
 Mongoose.connect('mongodb://localhost:27017/koa-mongo-example');
-let swagger = Swagger.init({
-    apiVersion: '1.0',
-    swaggerVersion: '1.0',
-    swaggerURL: '/doc',
-    swaggerJSON: '/swagger.json',
-    swaggerUI: './public/swagger/',
-    basePath: 'http://localhost:3000',
-    info: {
-      title: 'swagger-koa sample app',
-      description: 'Swagger + Koa = {swagger-koa}'
+
+const port = 3000;
+
+const app = new Koa();
+const router = new Router();
+require('./routes')(router);
+
+const swaggerOptions = {
+    definition: {
+        info: {
+            title: 'Koa-MongoDB example',
+            version: '1.0.0',
+        },
     },
-    apis: ['./routes/books.js']
-  });
+    // Paths to the API docs
+    apis: ['./controllers/books.js'],
+    path: '/swagger.json',
+}
+
+const swagger = Swagger(swaggerOptions);
+
 
 let swaggerUi = SwaggerUi({
-    routePrefix: '/swagger',
+    routePrefix: '/doc',
     swaggerOptions: {
-        url: 'http://petstore.swagger.io/v2/swagger.json'
+        url: swaggerOptions.path,
     }
 });
 app
