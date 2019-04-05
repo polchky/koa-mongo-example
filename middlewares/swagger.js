@@ -1,9 +1,8 @@
 const swaggerJSDoc = require('swagger-jsdoc');
 
-
 let spec;
 
-module.exports = function swagger(options){
+const swagger = function swagger(options){
 
     spec = swaggerJSDoc(options);
 
@@ -12,3 +11,5 @@ module.exports = function swagger(options){
         ctx.body = spec;
     };
 };
+
+module.exports = swagger;

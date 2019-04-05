@@ -1,16 +1,14 @@
 const Mongoose = require('mongoose');
 
-const bookSchema = new Mongoose.Schema(
+const userSchema = new Mongoose.Schema(
     {
-        title: {
-            type: String,
-            required: true,
-        },
+        email: {type: String},
+        password: {type: String},
     }, 
     {timestamps: true}
 );
 
-bookSchema.method('toClient', function() {
+userSchema.method('toClient', function() {
     var obj = this.toObject();
 
     //Rename fields
@@ -21,10 +19,11 @@ bookSchema.method('toClient', function() {
     delete obj.__v;
     delete obj.createdAt;
     delete obj.updatedAt;
+    delete obj.password;
 
     return obj;
 });
 
-Mongoose.model('Book', bookSchema);
+Mongoose.model('User', userSchema);
 
-module.exports = Mongoose.model('Book');
+module.exports = Mongoose.model('User');

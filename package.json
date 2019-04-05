@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start_dev": "nodemon -q -r dotenv/config index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -17,13 +18,18 @@
   },
   "homepage": "https://github.com/polchky/koa-mongo-example#readme",
   "dependencies": {
+    "bcrypt": "^3.0.5",
+    "jsonwebtoken": "^8.5.1",
     "koa": "^2.6.1",
     "koa-bodyparser": "^4.2.1",
     "koa-jwt": "^3.5.1",
     "koa-router": "^7.4.0",
     "koa2-swagger-ui": "^2.13.2",
     "mongoose": "^5.3.6",
-    "swagger-jsdoc": "^3.2.8",
-    "swagger-koa": "^2.0.0"
+    "swagger-jsdoc": "^3.2.8"
+  },
+  "devDependencies": {
+    "dotenv": "^7.0.0",
+    "nodemon": "^1.18.10"
   }
 }

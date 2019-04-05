@@ -4,32 +4,37 @@ const Router = require('koa-router');
 const Mongoose = require('mongoose');
 const Swagger = require('./middlewares/swagger.js');
 const SwaggerUi = require('koa2-swagger-ui');
+const Routes = require('./routes');
 
 
-Mongoose.connect('mongodb://localhost:27017/koa-mongo-example');
-
-const port = 3000;
+Mongoose.connect('mongodb://localhost:27017/koa-mongo-example', { useNewUrlParser: true });
 
 const app = new Koa();
 const router = new Router();
-require('./routes')(router);
+Routes(router);
 
 const swaggerOptions = {
     definition: {
+        openapi: '3.0.0',
         info: {
             title: 'Koa-MongoDB example',
             version: '1.0.0',
+            description: 'A sample API',
         },
     },
     // Paths to the API docs
-    apis: ['./controllers/books.js'],
+    apis: [
+        './controllers/auth.js',
+        './controllers/books.js',
+        './controllers/users.js',
+    ],
     path: '/swagger.json',
 }
 
 const swagger = Swagger(swaggerOptions);
 
 
-let swaggerUi = SwaggerUi({
+const swaggerUi = SwaggerUi({
     routePrefix: '/doc',
     swaggerOptions: {
         url: swaggerOptions.path,
@@ -41,5 +46,5 @@ app
     .use(bodyParser())
     .use(router.routes())
     .use(router.allowedMethods())
-    .listen(port);
+    .listen(process.env.PORT);
 

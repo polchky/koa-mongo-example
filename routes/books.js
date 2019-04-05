@@ -1,4 +1,5 @@
 const controller = require('../controllers/books.js');
+const jwt = require('../middlewares/jwt.js');
 /**
  * @swagger
  * resourcePath: /api
@@ -30,10 +31,10 @@ const controller = require('../controllers/books.js');
  */
 module.exports = (router) => {
     router
-        .post('/books/', controller.create)
-        .get('book', '/books/:id', controller.read)
-        .put('/books/:id', controller.update)
-        .delete('/books/:id', controller.delete)
+        .post('/books/', jwt, controller.create)
+        .get('/books/:id', controller.read)
+        .put('/books/:id', jwt, controller.update)
+        .delete('/books/:id', jwt, controller.delete)
         .get('/books/', controller.list)
-        .delete('/books/', controller.clear);
+        .delete('/books/', jwt, controller.clear);
 }
