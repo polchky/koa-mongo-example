@@ -33,9 +33,11 @@ let controller = {
 
     getById: async(id, ctx, next) => {
         try{
-            ctx.book = await Book.findById(id).populate('owner');
+            ctx.book = await Book.findById(id).populate('owner').exec();
+            if(!ctx.book) return ctx.status = 404;
             return next();
         } catch (err) {
+            console.log('not ok');
             ctx.status = 404;
         }
     },
@@ -153,6 +155,8 @@ let controller = {
      *         description: Invalid request
      *       '401':
      *         description: Unauthorized
+     *       '404':
+     *         description: Book not found
      * 
      */
     update: async (ctx) => {

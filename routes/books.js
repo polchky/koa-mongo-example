@@ -1,4 +1,4 @@
-const controller = require('../controllers/books');
+const books = require('../controllers/books');
 const jwt = require('../middlewares/jwt');
 /**
  * @swagger
@@ -31,11 +31,11 @@ const jwt = require('../middlewares/jwt');
  */
 module.exports = (router) => {
     router
-        .param('id', controller.getById)
-        .post('/books/', jwt, controller.create)
-        .get('/books/:id', controller.read)
-        .put('/books/:id', jwt, controller.update)
-        .delete('/books/:id', jwt, controller.delete)
-        .get('/books/', controller.list)
-        .delete('/books/', jwt, controller.clear);
+        .param('book_id', books.getById)
+        .post('/books/', jwt, books.create)
+        .get('/books/:book_id', books.read)
+        .put('/books/:book_id', jwt, books.update)
+        .delete('/books/:book_id', jwt, books.delete)
+        .get('/books/', books.list)
+        .delete('/books/', jwt, books.clear);
 }
