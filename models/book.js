@@ -6,6 +6,11 @@ const bookSchema = new Mongoose.Schema(
             type: String,
             required: true,
         },
+        owner: {
+            type: Mongoose.Schema.Types.ObjectId,
+            required: true,
+            ref: 'User'
+        },
     }, 
     {timestamps: true}
 );
@@ -15,6 +20,10 @@ bookSchema.method('toClient', function() {
 
     //Rename fields
     obj.id = obj._id;
+    obj.owner = {
+        id: obj.owner._id,
+        email: obj.owner.email,
+    }
 
     // Delete fields
     delete obj._id;

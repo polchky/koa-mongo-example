@@ -33,7 +33,11 @@ let controller = {
      *             $ref: '#/components/schemas/UserPartial'
      *     responses:
      *       '200':
-     *         description: success
+     *         description: Success
+     *       '400':
+     *         description: Invalid request
+     *       '404': 
+     *         description: User not found
      * 
      */
     login: async (ctx) => {
@@ -41,7 +45,7 @@ let controller = {
             email: ctx.request.body.email
         }).exec();
         if(!user) {
-            ctx.status = 400;
+            ctx.status = 404;
             ctx.body = 'User not found';
             return;
         }
@@ -88,14 +92,22 @@ let controller = {
  *           schema: 
  *             $ref: '#/components/schemas/UserPartial'
  *     responses:
- *       '200':
- *         description: success
+ *       '201':
+ *         description: Created
+ *       '400':
+ *         description: Invalid request
+ *       '409': 
+ *         description: Unique field already existing
  * 
  */
     register: async (ctx) => {
+        if(!ctx.request.body.email || !ctx.request.body.password) {
+            ctx.status = 400;
+            return;
+        }
         const duplicate = await User.findOne({email: ctx.request.body.email}).exec();
         if(duplicate) {
-            ctx.status = 400;
+            ctx.status = 409;
             return;
         }
         const password = await Bcrypt.hash(ctx.request.body.password, 10);

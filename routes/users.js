@@ -1,11 +1,14 @@
-const controller = require('../controllers/users.js');
-const jwt = require('../middlewares/jwt.js');
+const books = require('../controllers/books');
+const users = require('../controllers/users');
+const jwt = require('../middlewares/jwt');
 
 module.exports = (router) => {
     router
-        .get('/users/:id', controller.read)
-        .put('/users/:id', jwt, controller.update)
-        .delete('/users/:id', jwt, controller.delete)
-        .get('/users/', controller.list)
-        .delete('/users/', jwt, controller.clear);
+        .param('id', users.getById)
+        .get('/users/:id', users.read)
+        .get('/users/:id/books/', books.list)
+        .put('/users/:id', jwt, users.update)
+        .delete('/users/:id', jwt, users.delete)
+        .get('/users/', users.list)
+        .delete('/users/', jwt, users.clear);
 }

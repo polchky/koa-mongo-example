@@ -1,5 +1,5 @@
 module.exports = (router) => {
-    require('./books.js')(router);
-    require('./users.js')(router);
-    require('./auth.js')(router);
+    require('./books')(router);
+    require('./users')(router);
+    require('./auth')(router);
 }

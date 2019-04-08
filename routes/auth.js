@@ -1,4 +1,4 @@
-const controller = require('../controllers/auth.js');
+const controller = require('../controllers/auth');
 
 module.exports = (router) => {
     router

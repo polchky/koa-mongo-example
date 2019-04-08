@@ -1,5 +1,5 @@
-const controller = require('../controllers/books.js');
-const jwt = require('../middlewares/jwt.js');
+const controller = require('../controllers/books');
+const jwt = require('../middlewares/jwt');
 /**
  * @swagger
  * resourcePath: /api
@@ -31,6 +31,7 @@ const jwt = require('../middlewares/jwt.js');
  */
 module.exports = (router) => {
     router
+        .param('id', controller.getById)
         .post('/books/', jwt, controller.create)
         .get('/books/:id', controller.read)
         .put('/books/:id', jwt, controller.update)

@@ -6,8 +6,11 @@ const Swagger = require('./middlewares/swagger.js');
 const SwaggerUi = require('koa2-swagger-ui');
 const Routes = require('./routes');
 
-
-Mongoose.connect('mongodb://localhost:27017/koa-mongo-example', { useNewUrlParser: true });
+const mongooseOptions = {
+    useCreateIndex: true,
+    useNewUrlParser: true,
+};
+Mongoose.connect('mongodb://localhost:27017/koa-mongo-example', mongooseOptions);
 
 const app = new Koa();
 const router = new Router();

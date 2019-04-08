@@ -1,4 +1,5 @@
 const User = require('../models/user');
+const Book = require('../models/book');
 const Bcrypt = require('bcrypt');
 
 /**
@@ -7,14 +8,14 @@ const Bcrypt = require('bcrypt');
  * components:
  *   schemas:
  *     User: 
+ *       type: object
  *       properties:
  *         id: 
  *           type: string
  *         email:
  *           type: string
- *         password:
- *           type: string
-  *     UserPartial: 
+ *     UserPartial: 
+ *       type: object
  *       properties:
  *         email:
  *           type: string
@@ -23,8 +24,22 @@ const Bcrypt = require('bcrypt');
  *       required:
  *         - email
  *         - password
+ *     UsersArray:
+ *       type: array
+ *       items: 
+ *         $ref: '#/components/schemas/User' 
  */
 let controller = {
+
+    getById: async(id, ctx, next) => {
+        try{
+            ctx.user = await User.findById(id).exec();
+            if(!ctx.user) return ctx.status = 404;
+            return next();
+        } catch (err) {
+            ctx.status = 404;
+        }
+    },
 
     /**
      * @swagger
@@ -45,11 +60,16 @@ let controller = {
      *     responses:
      *       '200':
      *         description: success
+     *         content:
+     *           application/json:
+     *             schema:
+     *               $ref: '#/components/schemas/User'
+     *       '404':
+     *         description: User not found
      * 
      */
     read: async (ctx) => {
-        const users = await User.findById(ctx.params.id);
-        ctx.body = users.toClient();
+        ctx.body = ctx.user.toClient();
     },
     
     /**
@@ -79,10 +99,20 @@ let controller = {
      *     responses:
      *       '200':
      *         description: success
+     *         content:
+     *           application/json:
+     *             schema:
+     *               $ref: '#/components/schemas/User'
+     *       '404':
+     *         description: User not found
+     *       '400':
+     *         description: Invalid request body
+     *       '401':
+     *         description: Unauthorized
      * 
      */
     update: async (ctx) => {
-        let user = await User.findById(ctx.params.id);
+        const user = ctx.user;
         user.email = ctx.request.body.email;
         user.password = await Bcrypt.hash(ctx.request.body.password, 10);
         await user.save();
@@ -109,11 +139,19 @@ let controller = {
      *           type: string
      *     responses:
      *       '204':
-     *         description: no content
+     *         description: User deleted
+     *       '404':
+     *         description: User not found
+     *       '401':
+     *         description: Unauthorized
+     *       '409':
+     *         description: Conflict with dependent resources
      * 
      */
     delete: async (ctx) => {
-        await User.findByIdAndDelete(ctx.params.id).exec();
+        const n = await Book.countDocuments({owner: ctx.user._id}).exec();
+        if(n > 0) return ctx.status = 409;
+        await User.findByIdAndDelete(ctx.user._id).exec();
         ctx.status = 204;
     },
     
@@ -129,6 +167,10 @@ let controller = {
      *     responses:
      *       '200':
      *         description: success
+     *         content:
+     *           application/json:
+     *             schema:
+     *               $ref: '#/components/schemas/UsersArray'
      * 
      */
     list: async (ctx) => {
@@ -152,10 +194,16 @@ let controller = {
      *       - bearerAuth: []
      *     responses:
      *       '204':
-     *         description: no content
+     *         description: Users deleted
+     *       '401':
+     *         description: Unauthorized
+     *       '409':
+     *         description: Conflict with dependent resources
      * 
      */
     clear: async (ctx) => {
+        const n = await Book.countDocuments().exec();
+        if(n > 0) return ctx.status = 409;
         await User.deleteMany().exec();
         ctx.status = 204;
     }
