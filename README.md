@@ -3,7 +3,7 @@
 ## Prerequisites
 In order to run this project you must have the following installed: 
 - Git
-- NodeJS with npm
+- NodeJS (10+) with npm
 - MongoDB (the service must be running)
 - Know about NodeJS, specifically about asynchronous programming (callbacks, promises and async/await)
 ## Installing the Project
