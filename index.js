@@ -16,7 +16,7 @@ Mongoose.connect('mongodb://localhost:27017/koa-mongo-example', mongooseOptions)
 
 // Create the Koa app
 const app = new Koa();
-// Create a router objects
+// Create a router object
 const router = new Router();
 // Register all routes by passing the router to them
 Routes(router);

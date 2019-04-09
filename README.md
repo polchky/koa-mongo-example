@@ -7,7 +7,7 @@ In order to run this project you must have the following installed:
 - MongoDB (the service must be running)
 - Know about NodeJS, specifically about asynchronous programming (callbacks, promises and async/await)
 ## Installing the Project
-To install the dependencies execute the following commands:
+To download and install the project, execute the following commands:
 ```
 git clone https://github.com/polchky/koa-mongo-example.git
 cd koa-mongo-example
@@ -24,7 +24,8 @@ The API is documented using OpenAPI. An interactive documentation page is availa
 To start: register an account using the **/register** endpoint, and login using the **/login** endpoint. You should receive a token, which you can use with the **Authorize** button. Enter the token value, click *Authorize* and then *close*. Your are now able to use all endpoints, including those requiring an authentication (with a lock on the right).
 
 ## Code Explanations
-The code is explained mostly using comments. The main assumptions is that you are confident with asynchronous programming. Here are some more general concepts: 
+The code is explained mostly using comments. The main assumptions is that you are confident with server-side javascript and asynchronous programming. Here are some
+concepts: 
 
 ### Libraries
 If you take a look at the ```package.json``` file, you'll see that all the libraries we need are present under the ```dependencies``` object. There are also some development libraries, that are not used for production: ```nodemon``` is used to listen to code changes and restart the server automatically, and ```dotenv``` is used to load environment variables (see below).
