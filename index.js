@@ -2,6 +2,7 @@ const Koa = require('koa');
 const bodyParser = require('koa-bodyparser');
 const Router = require('koa-router');
 const Mongoose = require('mongoose');
+const AutoIncrement = require('mongoose-auto-increment');
 const Swagger = require('./middlewares/swagger');
 const SwaggerUi = require('koa2-swagger-ui');
 const Routes = require('./routes');
@@ -13,6 +14,9 @@ const mongooseOptions = {
 };
 // Connect to the MongoDB database
 Mongoose.connect('mongodb://localhost:27017/koa-mongo-example', mongooseOptions);
+// Use auto increment for models
+AutoIncrement.initialize(Mongoose.connection);
+
 
 // Create the Koa app
 const app = new Koa();

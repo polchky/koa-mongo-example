@@ -26,6 +26,7 @@
     "koa-router": "^7.4.0",
     "koa2-swagger-ui": "^2.13.2",
     "mongoose": "^5.3.6",
+    "mongoose-auto-increment": "^5.0.1",
     "swagger-jsdoc": "^3.2.8"
   },
   "devDependencies": {

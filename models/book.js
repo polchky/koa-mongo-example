@@ -1,4 +1,5 @@
 const Mongoose = require('mongoose');
+const AutoIncrement = require('mongoose-auto-increment');
 
 const bookSchema = new Mongoose.Schema(
     {
@@ -7,7 +8,7 @@ const bookSchema = new Mongoose.Schema(
             required: true,
         },
         owner: {
-            type: Mongoose.Schema.Types.ObjectId,
+            type: Number,
             required: true,
             ref: 'User'
         },
@@ -32,6 +33,11 @@ bookSchema.method('toClient', function() {
     delete obj.updatedAt;
 
     return obj;
+});
+
+bookSchema.plugin(AutoIncrement.plugin, {
+    model: 'Book',
+    startAt: 1,
 });
 
 Mongoose.model('Book', bookSchema);

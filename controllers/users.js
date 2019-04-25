@@ -11,7 +11,7 @@ const Bcrypt = require('bcrypt');
  *       type: object
  *       properties:
  *         id: 
- *           type: string
+ *           type: Number
  *         email:
  *           type: string
  *     UserPartial: 

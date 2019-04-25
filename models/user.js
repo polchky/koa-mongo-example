@@ -1,4 +1,5 @@
 const Mongoose = require('mongoose');
+const AutoIncrement = require('mongoose-auto-increment');
 
 const userSchema = new Mongoose.Schema(
     {
@@ -31,6 +32,11 @@ userSchema.method('toClient', function() {
     delete obj.password;
 
     return obj;
+});
+
+userSchema.plugin(AutoIncrement.plugin, {
+    model: 'User',
+    startAt: 1,
 });
 
 Mongoose.model('User', userSchema);

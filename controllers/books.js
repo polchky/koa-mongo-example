@@ -9,7 +9,7 @@ const User = require('../models/user');
  *     Book: 
  *       properties:
  *         id: 
- *           type: string
+ *           type: Number
  *         title:
  *           type: string
  *         owner: 
@@ -22,7 +22,7 @@ const User = require('../models/user');
  *           type: object
  *           properties: 
  *             id: 
- *               type: string
+ *               type: Number
  *           required: 
  *             - id
  *       required:
@@ -37,7 +37,6 @@ let controller = {
             if(!ctx.book) return ctx.status = 404;
             return next();
         } catch (err) {
-            console.log('not ok');
             ctx.status = 404;
         }
     },
@@ -167,6 +166,7 @@ let controller = {
             book.title = ctx.request.body.title;
             book.owner = user._id;
             await book.save();
+            await book.populate('owner').execPopulate();
             ctx.body = book.toClient();
         } catch (err) {
             ctx.status = 400;
@@ -266,7 +266,7 @@ let controller = {
             }
         }
         if (ctx.user) req.owner = ctx.user._id;
-        const books = await Book.find(req).exec();
+        const books = await Book.find(req).populate('owner').exec();
         for(let i = 0; i < books.length; i++) {
             books[i] = books[i].toClient();
         }
