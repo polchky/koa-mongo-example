@@ -1,5 +1,6 @@
 const Koa = require('koa');
 const Router = require('koa-router');
+const bodyParser = require('koa-bodyparser');
 
 // Create the Koa app
 const app = new Koa();
@@ -27,11 +28,17 @@ router.get('/users/', (ctx) => {
     ctx.body = users;
 });
 
+router.post('/users/', (ctx) => {
+    users.push(ctx.request.body);
+    ctx.response.status = 201;
+});
+
 router.get('/users/:userId', (ctx) => {
     ctx.body = users[ctx.params.userId];
 });
 
 app
+    .use(bodyParser())
     .use(guard)
     .use(router.routes())
     .listen(3000);
