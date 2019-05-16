@@ -73,8 +73,9 @@ router.get('/promises', (ctx) => {
 });
 
 router.get('/async', async (ctx) => {
+    let users;
     try{
-        let users = await User.find({});
+        users = await User.find({});
         users = await User.find({});
         users = await User.find({});
         users = await User.find({});
