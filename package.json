@@ -17,7 +17,9 @@
   },
   "homepage": "https://github.com/polchky/koa-mongo-example#readme",
   "dependencies": {
-    "koa": "^2.6.1"
+    "koa": "^2.6.1",
+    "koa-router": "^7.4.0",
+    "mongoose": "^5.5.8"
   },
   "devDependencies": {}
 }
